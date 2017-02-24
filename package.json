@@ -1,0 +1,21 @@
+{
+  "name": "stella",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/tsc -w",
+    "build": "node_modules/.bin/tsc",
+    "dev": "node_modules/.bin/nodemon build/src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "nodemon": "^1.11.0",
+    "request": "^2.79.0",
+    "typescript": "^2.2.1"
+  }
+}
