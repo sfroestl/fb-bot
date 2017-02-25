@@ -17,11 +17,17 @@ export const sendTextMessage = (id: String, text: String) => {
 		}
 	};
 
-	request(config, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
+	const reply = new Promise((resolve: Function, reject: Function) => {
+		request(config, function(error, response, body) {
+			if (error) {
+				reject(error);
+			} else if (response.body.error) {
+				reject(response.body.error);
+			} else {
+				resolve({ response, body });
+			}
+		});
 	});
+	reply.then(console.log);
+	reply.catch(console.log);
 };
