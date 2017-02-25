@@ -1,7 +1,8 @@
 import { Request } from 'express';
 import * as request from 'request';
-import { FB_ACCESS_TOKEN, } from '../keys';
+
 const FB_URL = 'https://graph.facebook.com/v2.6/me/messages';
+const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
 
 export const getEvents = (req: Request) => req.body.entry[0].messaging;
 

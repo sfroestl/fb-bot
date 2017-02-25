@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { VERIFY_TOKEN } from '../keys';
 import { getEvents, sendTextMessage } from './helpers';
-
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const router: Router = Router();
 
 router.get('/', (req: Request, res: Response) => {
