@@ -5,9 +5,9 @@ const ai = apiai(API_AI_TOKEN);
 
 export default {
     ask
-}
+};
 
-function ask(query: string, id: string) {
+function ask(id: string, query: string) {
     console.log('ask', query, id);
     return new Promise((resolve, reject) => {
         const request = ai.textRequest(query, { sessionId: id });
