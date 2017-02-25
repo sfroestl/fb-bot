@@ -12,14 +12,15 @@ export const sendTextMessage = (id: String, text: String) => {
 		url: FB_URL,
 		qs: { access_token: FB_ACCESS_TOKEN },
 		method: 'POST',
-		json: {
-			recipient: { id },
-			message: messageData,
-		}
-	};
 
-	const reply = new Promise((resolve: Function, reject: Function) => {
-		request(config, function(error, response, body) {
+	};
+	const writing = new Promise((resolve: Function, reject: Function) => {
+		request({
+			...config,
+			json: { recipient: { id },
+				sender_action: 'typing_on',
+			},
+		}, function(error, response, body) {
 			if (error) {
 				reject(error);
 			} else if (response.body.error) {
@@ -29,5 +30,23 @@ export const sendTextMessage = (id: String, text: String) => {
 			}
 		});
 	});
-	reply.catch((error) => console.log('Error=', error));
+
+	const reply = new Promise((resolve: Function, reject: Function) => {
+		setTimeout(() => {
+			request({
+				...config,
+				json: { recipient: { id },
+					message: messageData
+				}
+			}, function(error, response, body) {
+				if (error) {
+					reject(error);
+				} else if (response.body.error) {
+					reject(response.body.error);
+				} else {
+					resolve({ response, body });
+				}
+			});
+		}, 500);
+	});
 };

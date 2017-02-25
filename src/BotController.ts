@@ -22,8 +22,8 @@ router.post('/webhook', (req: Request, res: Response) => {
 	for (let i = 0; i < events.length; i++) {
 		const event = events[i];
         console.log('---EVENT=', event);
-		const senderId = event.sender.id;
 		if (event.message && event.message.text) {
+			const senderId = event.sender.id;
 			const text = event.message.text;
 			sendTextMessage(senderId, `Echo: ${text.substring(0, 200)}`);
 		}
