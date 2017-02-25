@@ -28,6 +28,5 @@ export const sendTextMessage = (id: String, text: String) => {
 			}
 		});
 	});
-	reply.then(console.log);
-	reply.catch(console.log);
+	reply.catch((error) => console.log('Error=', error));
 };

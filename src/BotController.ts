@@ -18,10 +18,11 @@ router.get('/webhook', (req: Request, res: Response) => {
 });
 
 router.post('/webhook', (req: Request, res: Response) => {
-    console.log('webhook triggered!');
 	const events = getEvents(req);
+    console.log('webhook triggered! events=', events.length);
 	for (let i = 0; i < events.length; i++) {
 		const event = events[i];
+        console.log('---EVENT=', event);
 		const senderId = event.sender.id;
 		if (event.message && event.message.text) {
 			const text = event.message.text;
