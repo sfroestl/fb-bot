@@ -6,21 +6,18 @@ const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
 
 export const getEvents = (req: Request) => req.body.entry[0].messaging;
 
-export const sendTextMessage = (id: String, text: String) => {
-	const messageData = { text };
-    const config = {
+export const indicateWriting = (id: String) => {
+	const config = {
 		url: FB_URL,
 		qs: { access_token: FB_ACCESS_TOKEN },
 		method: 'POST',
-
+		json: {
+			recipient: { id },
+			sender_action: 'typing_on',
+		},
 	};
-	const writing = new Promise((resolve: Function, reject: Function) => {
-		request({
-			...config,
-			json: { recipient: { id },
-				sender_action: 'typing_on',
-			},
-		}, function(error, response, body) {
+	return new Promise((resolve: Function, reject: Function) => {
+		request(config, (error, response, body) => {
 			if (error) {
 				reject(error);
 			} else if (response.body.error) {
@@ -30,23 +27,32 @@ export const sendTextMessage = (id: String, text: String) => {
 			}
 		});
 	});
+}
 
-	const reply = new Promise((resolve: Function, reject: Function) => {
-		setTimeout(() => {
-			request({
-				...config,
-				json: { recipient: { id },
-					message: messageData
-				}
-			}, function(error, response, body) {
-				if (error) {
-					reject(error);
-				} else if (response.body.error) {
-					reject(response.body.error);
-				} else {
-					resolve({ response, body });
-				}
-			});
-		}, 500);
+export const sendTextMessage = (id: String, text: String) => {
+	const messageData = { text };
+    const config = {
+		url: FB_URL,
+		qs: { access_token: FB_ACCESS_TOKEN },
+		method: 'POST',
+		json: {
+			recipient: { id },
+			message: messageData
+		}
+	};
+
+	return new Promise((resolve: Function, reject: Function) => {
+		request({
+			config,
+
+		}, function(error, response, body) {
+			if (error) {
+				reject(error);
+			} else if (response.body.error) {
+				reject(response.body.error);
+			} else {
+				resolve({ response, body });
+			}
+		});
 	});
 };
