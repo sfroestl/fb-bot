@@ -4,17 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/server.js",
-    "dev": "node_modules/.bin/tsc -w",
-    "build": "node_modules/.bin/tsc",
-    "server": "node_modules/.bin/nodemon build/server.js"
+    "start": "node dist/bundle.js",
+    "dev": "node_modules/.bin/webpack -w",
+    "build": "node_modules/.bin/webpack",
+    "server": "node_modules/.bin/nodemon dist/bundle.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "api-ai-javascript": "^2.0.0-beta.15"
+    "awesome-typescript-loader": "^3.0.7",
+    "localtunnel": "^1.8.2",
+    "webpack": "^2.2.1"
   },
   "dependencies": {
+    "api-ai-javascript": "^2.0.0-beta.16",
+    "apiai": "^4.0.0",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "nodemon": "^1.11.0",
