@@ -29,23 +29,22 @@ export const indicateWriting = (id: String) => {
 	});
 }
 
-export const sendTextMessage = (id: String, text: String) => {
-	const messageData = { text };
+export const sendTextMessage = (id: string, text: string) => {
+	console.log(`sening message to id=${id} message=${text}`);
     const config = {
 		url: FB_URL,
 		qs: { access_token: FB_ACCESS_TOKEN },
 		method: 'POST',
 		json: {
 			recipient: { id },
-			message: messageData
+			message: { text }
 		}
 	};
 
 	return new Promise((resolve: Function, reject: Function) => {
-		request({
-			config,
-
-		}, function(error, response, body) {
+		request(
+			config
+			, function(error, response, body) {
 			if (error) {
 				reject(error);
 			} else if (response.body.error) {

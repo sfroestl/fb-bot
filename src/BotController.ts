@@ -23,15 +23,20 @@ router.post('/webhook', (req: Request, res: Response) => {
 	for (let i = 0; i < events.length; i++) {
 		const event = events[i];
 		const senderId = event.sender.id;
-		indicateWriting(senderId);
         console.log('---EVENT=', event);
 		if (event.message && event.message.text) {
-			const text = event.message.text;
+			indicateWriting(senderId).catch(console.log);
+			const text: string = event.message.text;
 			ai
-				.ask(text)
-				.then((aiResponse) => {
-					console.log('aiResponse=', aiResponse);
-					sendTextMessage(senderId, `Echo: ${text.substring(0, 200)}`)
+				.ask(text, senderId)
+				.then((aiResponse: any) => {
+					console.log('---aiResponse=', aiResponse);
+					const { speech } = aiResponse.result.fulfillment;
+					sendTextMessage(senderId, speech)
+						.catch(console.log);
+				})
+				.catch((error) => {
+					console.log('API Error', error);
 				});
 		}
 	}

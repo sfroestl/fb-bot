@@ -1,17 +1,18 @@
-import { ApiAiClient, IServerResponse } from "api-ai-javascript/ApiAiClient";
-
+import * as apiai from 'apiai';
 const { API_AI_TOKEN } = process.env;
 
-const ai = new ApiAiClient({ accessToken: API_AI_TOKEN });
+const ai = apiai(API_AI_TOKEN);
 
 export default {
-    ask,
-};
+    ask
+}
 
-function ask(query: String) {
-  return new Promise((resolve, reject) => {
-    const request = ai.textRequest(query)
-        .then(resolve)
-        .catch(reject);
-  });
+function ask(query: string, id: string) {
+    console.log('ask', query, id);
+    return new Promise((resolve, reject) => {
+        const request = ai.textRequest(query, { sessionId: id });
+        request.on('response', (response) => resolve(response));
+        request.on('error', (err) => reject(err));
+        request.end();
+    });
 }
